@@ -1,4 +1,4 @@
-# User-Auth-CRUD-MEAN
+# User-Auth-JWT-CRUD-MEAN
 
 This project was generated with
 
