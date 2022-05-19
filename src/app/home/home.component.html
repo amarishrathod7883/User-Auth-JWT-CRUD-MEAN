@@ -1,0 +1,70 @@
+<div class="container">
+  <header class="jumbotron">
+    <h3><strong>Users</strong> List</h3>
+  </header>
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search by Username"
+      [(ngModel)]="searchUsername"
+      (ngModelChange)="searchNotifier.next()"
+    />
+    </div>
+  <div class="alert alert-success" *ngIf="isDeleted">
+    Deleted Successfully.
+  </div>
+  <table class="table table-bordered">
+    <tr>
+      <th>Profile Image</th>
+      <th>Username</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Role</th>
+
+      <th>Action</th>
+    </tr>
+    <tr
+      *ngFor="let getAllUser_new of getAllUser | paginate: {itemsPerPage: itemsperpage, currentPage: p, totalItems: totalitems} let i=index;">
+      <td>
+        <img src="/assets/images/{{getAllUser_new.profileimage}}" onerror="this.src='/assets/images/NoImage.png'"
+          style="height: 100px;width: 100px;">
+      </td>
+      <td>{{ getAllUser_new.username }}</td>
+      <td>{{ getAllUser_new.firstname }}</td>
+      <td>{{ getAllUser_new.lastname }}</td>
+      <td>{{ getAllUser_new.user_role_id.role_name }}</td>
+      <td>
+        <button routerLink="/user/{{ getAllUser_new._id }}" class="btn-primary">Edit</button>
+        <button class="btn-warning ml-1" *ngIf="role_name == 'ADMIN'" (click)="removeSingleUser(getAllUser_new._id);">Delete</button>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="12">
+
+        <div class="row">
+          <div class="col-md-3" style="margin: 0 auto;">
+            <select class="form-control input-sm" (change)="itemsPerPage($event.target.value)">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+
+          <div class="col-md-4" style="margin: 0 auto; text-align: center;">
+            <div class="dataTables_info showing_entries">
+              Showing {{ showing }} To {{ to }} Of {{ totalitems }} Entries
+            </div>
+          </div>
+
+          <div class="col-md-5" style="margin: 0 auto; text-align: right;">
+            <div class="dataTables_paginate paging_simple_numbers">
+              <pagination-controls (pageChange)="page($event); p = $event"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

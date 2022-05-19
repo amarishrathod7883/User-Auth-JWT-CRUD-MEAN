@@ -1,0 +1,90 @@
+<div class="col-md-6" style="margin: 0 auto;">
+  <div class="card card-container" style="border: none;">
+    <h1 style="margin: 20px 0; text-align: center; font-size: 36px; font-weight: 700;">
+      User Details
+    </h1>
+    <form
+      *ngIf="!isSuccessful"
+      name="form"
+      (ngSubmit)="f.form.valid && onUpdate()"
+      #f="ngForm"
+      novalidate >
+      <div class="form-group">
+        <label for="firstname">First Name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="firstname"
+          [(ngModel)]="form.firstname"
+          #firstname="ngModel"
+        />
+      </div>
+      <div class="form-group">
+        <label for="lastname">Last Name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="lastname"
+          [(ngModel)]="form.lastname"
+          #lastname="ngModel"
+        />
+      </div>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          name="username"
+          [(ngModel)]="form.username"
+          required
+          minlength="3"
+          maxlength="20"
+          #username="ngModel"
+        />
+        <div class="alert" *ngIf="username.errors && f.submitted" style="color: red; padding: 8px 0px;">
+          <div *ngIf="username.errors.required">Username is required</div>
+          <div *ngIf="username.errors.minlength">
+            Username must be at least 3 characters
+          </div>
+          <div *ngIf="username.errors.maxlength">
+            Username must be at most 20 characters
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          [(ngModel)]="form.email"
+          required
+          email
+          #email="ngModel"
+        />
+        <div class="alert" *ngIf="email.errors && f.submitted" style="color: red; padding: 8px 0px;">
+          <div *ngIf="email.errors.required">Email is required</div>
+          <div *ngIf="email.errors.email">
+            Email must be a valid email address
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="profileimage">Profile Image</label><br>
+        <input type="file" id="profileimage" (change)="uploadFile($event)" style="width:80%">
+        <span style="width:20%" *ngIf="imagePreview && imagePreview !== null">
+          <img [src]="imagePreview" style="height: 100px;width: 100px;">
+        </span>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">Update</button>
+      </div>
+      <div class="alert" *ngIf="f.submitted && isUpdateFailed" style="color: red; padding: 8px 0px;">
+        {{ errorMessage }}
+      </div>
+    </form>
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      Your registration is successful!
+    </div>
+  </div>
+</div>
